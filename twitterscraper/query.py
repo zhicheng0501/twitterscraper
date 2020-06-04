@@ -37,18 +37,12 @@ INIT_URL_USER = 'https://twitter.com/{u}'
 RELOAD_URL_USER = 'https://twitter.com/i/profiles/show/{u}/timeline/tweets?' \
                   'include_available_features=1&include_entities=1&' \
                   'max_position={pos}&reset_error_state=false'
-PROXY_URL = 'https://free-proxy-list.net/'
+PROXY_URL = 'http://list.didsoft.com/get?email=2543161449@qq.com&pass=yfvxx2&pid=http3000&showcountry=no'
 
 def get_proxies():
     response = requests.get(PROXY_URL)
-    soup = BeautifulSoup(response.text, 'lxml')
-    table = soup.find('table',id='proxylisttable')
-    list_tr = table.find_all('tr')
-    list_td = [elem.find_all('td') for elem in list_tr]
-    list_td = list(filter(None, list_td))
-    list_ip = [elem[0].text for elem in list_td]
-    list_ports = [elem[1].text for elem in list_td]
-    list_proxies = [':'.join(elem) for elem in list(zip(list_ip, list_ports))]
+    list_proxy = response.text.split('\n')
+    list_proxies = list_proxy[0]
     return list_proxies               
                   
 def get_query_url(query, lang, pos, from_user = False):
